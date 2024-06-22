@@ -85,5 +85,3 @@ def group_bytes_by_time(csv_dict):
     Groups csv rows by exact time matching
     """
     return groupby(bytes_to_csv_dict(csv_dict), lambda x: x["TimeStamp"])
-
-# list(ImpervaLog(open("unpack/spam.zip", 'rb')).flat_payload('gw1'))
