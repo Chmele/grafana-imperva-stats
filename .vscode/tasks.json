@@ -1,0 +1,45 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": ["docker-build"],
+            "dockerRun": {
+                "containerName": "imperva-grafana-api",
+                "image": "imperva-grafana-api:latest",
+                "env": {
+                  "FLASK_APP": "api.py",
+                  "FLASK_DEBUG": "True"
+                },
+                "volumes": [
+                  {
+                    "containerPath": "/app",
+                    "localPath": "${workspaceFolder}"
+                  }
+                ],
+                "ports": [
+                  {
+                    "containerPort": 5000,
+                    "hostPort": 5678
+                  }
+                ]
+              },
+            "python": {
+                "args": ["run", "--host=0.0.0.0"],
+                "module": "flask"
+            }
+        },
+        {
+            "label": "docker-build",
+            "type": "docker-build",
+            "dockerBuild": {
+                "context": "${workspaceFolder}",
+                "dockerfile": "${workspaceFolder}/Dockerfile",
+                "tag": "imperva-grafana-api:latest"
+            }
+        }
+    ]
+}
